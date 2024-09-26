@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validación de Formulario</title>
+    <style>
+        #noname {
+            color: pink;
+            display: none;
+        }
+    </style>
+    <script>
+        function validateForm() {
+            const nameField = document.getElementById("name").value;
+            const message = document.getElementById("noname");
+
+            if (nameField.trim() === "") {
+                message.style.display = "block";
+                return false;  // Previene el envío del formulario
+            } else {
+                message.style.display = "none";
+                return true;  // Permite el envío del formulario
+            }
+        }
+    </script>
+</head>
+<body>
+    <h2>Formulario de Registro</h2>
+    <form onsubmit="return validateForm()">
+        <label for="name">Nombre:</
