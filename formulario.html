@@ -6,26 +6,37 @@
     <title>Validación de Formulario</title>
     <style>
         #noname {
-            color: pink;
-            display: none;
+            color: pink; /* Mensaje de error en color rosa */
+            display: none; /* Oculto por defecto */
         }
     </style>
     <script>
-        function validateForm() {
+        function validateForm(event) {
             const nameField = document.getElementById("name").value;
             const message = document.getElementById("noname");
 
             if (nameField.trim() === "") {
-                message.style.display = "block";
-                return false;  // Previene el envío del formulario
+                message.style.display = "block"; // Mostrar el mensaje de error
+                event.preventDefault(); // Prevenir envío del formulario
             } else {
-                message.style.display = "none";
-                return true;  // Permite el envío del formulario
+                message.style.display = "none"; // Ocultar el mensaje si hay nombre
             }
         }
     </script>
 </head>
 <body>
     <h2>Formulario de Registro</h2>
-    <form onsubmit="return validateForm()">
-        <label for="name">Nombre:</
+    <form id="myForm">
+        <label for="name">Nombre:</label>
+        <input type="text" id="name" name="name">
+        <br><br>
+        <input type="submit" value="Enviar">
+        <p id="noname">El campo de nombre no puede estar vacío.</p> <!-- Mensaje de error -->
+    </form>
+
+    <script>
+        // Asignar el evento de validación al formulario
+        document.getElementById("myForm").addEventListener("submit", validateForm);
+    </script>
+</body>
+</html>
