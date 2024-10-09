@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Suma</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f7fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h2 {
+            color: #333;
+            font-size: 32px;
+            margin-bottom: 20px;
+            letter-spacing: 1.5px;
+        }
+
+        label {
+            font-size: 18px;
+            color: #333;
+            display: block;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+
+        input[type="number"], input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 18px;
+            transition: border 0.3s ease;
+        }
+
+        input[type="number"]:focus, input[type="text"]:focus {
+            border-color: #00bfff;
+            outline: none;
+        }
+
+        input[type="button"] {
+            font-size: 20px;
+            padding: 12px 20px;
+            background-color: #00bfff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        input[type="button"]:hover {
+            background-color: #1e90ff;
+            transform: translateY(-2px);
+        }
+
+        input[readonly] {
+            background-color: #e9e9e9;
+            cursor: not-allowed;
+        }
+
+        /* Animaciones */
+        input[type="text"] {
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            background-color: #f0f8ff;
+        }
+
+        input[type="number"] {
+            transition: box-shadow 0.3s ease;
+        }
+
+        input[type="number"]:hover {
+            box-shadow: 0 0 10px rgba(0, 191, 255, 0.3);
+        }
+
+        .container {
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+    <script>
+        function sumar() {
+            // Obtener los valores de las variables churpia1 y churpia2
+            var num1 = parseFloat(document.getElementById("churpia1").value);
+            var num2 = parseFloat(document.getElementById("churpia2").value);
+            
+            // Calcular la suma
+            var resultado = num1 + num2;
+            
+            // Mostrar el resultado en el campo caquita
+            document.getElementById("caquita").value = resultado;
+        }
+    </script>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Formulario de Suma</h2>
+        
+        <form>
+            <label for="churpia1">Número 1:</label>
+            <input type="number" id="churpia1" name="churpia1"><br>
+            
+            <label for="churpia2">Número 2:</label>
+            <input type="number" id="churpia2" name="churpia2"><br>
+            
+            <input type="button" value="Sumar" onclick="sumar()"><br>
+            
+            <label for="caquita">Resultado:</label>
+            <input type="text" id="caquita" name="caquita" readonly><br>
+        </form>
+    </div>
+
+</body>
+</html>

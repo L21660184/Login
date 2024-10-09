@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Piedra, Papel o Tijera</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            background-color: #f5f7fa;
+            padding: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 40px;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+
+        h3 {
+            font-size: 24px;
+            color: #333;
+            margin: 20px 0;
+        }
+
+        .opciones {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .opciones div {
+            transition: transform 0.3s;
+        }
+
+        .opciones div:hover {
+            transform: scale(1.1);
+        }
+
+        button {
+            font-size: 20px;
+            padding: 10px 20px;
+            margin-top: 20px;
+            cursor: pointer;
+            border: none;
+            border-radius: 8px;
+            background-color: #00bfff;
+            color: white;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #1e90ff;
+            transform: translateY(-2px);
+        }
+
+        .opciones img {
+            width: 100px;
+            height: 100px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .opciones img:hover {
+            transform: scale(1.2);
+        }
+
+        #resultado {
+            font-size: 26px;
+            margin-top: 30px;
+            color: #0066cc;
+            transition: color 0.3s ease;
+        }
+
+        #temporizador {
+            font-size: 28px;
+            color: #ff4500;
+            margin-top: 20px;
+            transition: color 0.3s ease;
+        }
+
+        /* Animación del temporizador */
+        #temporizador {
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Piedra, Papel o Tijera</h1>
+
+        <h3 id="instrucciones">Elige tu opción antes de que el temporizador llegue a 0:</h3>
+
+        <div id="temporizador">5</div>
+
+        <!-- Opciones visuales para piedra, papel o tijera -->
+        <div class="opciones">
+            <div>
+                <img src="https://img.icons8.com/color/100/rock.png" alt="Piedra" onclick="elegir('piedra')">
+                <h3>Piedra</h3>
+            </div>
+            <div>
+                <img src="https://img.icons8.com/color/100/paper.png" alt="Papel" onclick="elegir('papel')">
+                <h3>Papel</h3>
+            </div>
+            <div>
+                <img src="https://img.icons8.com/color/100/scissors.png" alt="Tijera" onclick="elegir('tijera')">
+                <h3>Tijera</h3>
+            </div>
+        </div>
+
+        <h3 id="resultado"></h3>
+    </div>
+
+    <script>
+        let tiempoRestante = 5;
+        let temporizador;
+        let eleccionUsuario = null;
+        const opciones = ['piedra', 'papel', 'tijera'];
+
+        // Función para iniciar el temporizador
+        function iniciarTemporizador() {
+            document.getElementById('resultado').textContent = '';
+            document.getElementById('temporizador').textContent = tiempoRestante;
+
+            temporizador = setInterval(() => {
+                tiempoRestante--;
+                document.getElementById('temporizador').textContent = tiempoRestante;
+
+                if (tiempoRestante === 0) {
+                    clearInterval(temporizador);
+                    if (!eleccionUsuario) {
+                        document.getElementById('resultado').textContent = '¡Tiempo agotado! No elegiste a tiempo.';
+                        document.getElementById('resultado').style.color = '#ff4500';
+                    } else {
+                        jugar();
+                    }
+                }
+            }, 1000);
+        }
+
+        // Función para cuando el usuario hace su elección
+        function elegir(eleccion) {
+            if (!eleccionUsuario) {
+                eleccionUsuario = eleccion;
+                clearInterval(temporizador); // Detener el temporizador si el usuario elige
+                jugar(); // Ejecutar el juego
+            }
+        }
+
+        // Función para jugar contra la computadora
+        function jugar() {
+            const eleccionComputadora = opciones[Math.floor(Math.random() * 3)];
+            let resultado = '';
+
+            if (eleccionUsuario === eleccionComputadora) {
+                resultado = "¡Empate! Ambos eligieron " + eleccionUsuario;
+            } else if (
+                (eleccionUsuario === 'piedra' && eleccionComputadora === 'tijera') ||
+                (eleccionUsuario === 'papel' && eleccionComputadora === 'piedra') ||
+                (eleccionUsuario === 'tijera' && eleccionComputadora === 'papel')
+            ) {
+                resultado = "¡Ganaste! " + eleccionUsuario + " vence a " + eleccionComputadora;
+            } else {
+                resultado = "¡Perdiste! " + eleccionComputadora + " vence a " + eleccionUsuario;
+            }
+
+            document.getElementById('resultado').textContent = resultado;
+            document.getElementById('resultado').style.color = (resultado.includes("Ganaste")) ? '#27ae60' : '#e74c3c';
+            eleccionUsuario = null; // Restablecer la elección del usuario
+            tiempoRestante = 5; // Reiniciar el temporizador
+            setTimeout(iniciarTemporizador, 2000); // Reiniciar el juego después de 2 segundos
+        }
+
+        // Iniciar el juego con el temporizador
+        window.onload = iniciarTemporizador;
+    </script>
+</body>
+</html>

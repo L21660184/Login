@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tareas - Profesional</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #eef2f7;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #34495e;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .task-input-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        input[type="text"] {
+            width: 70%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+            transition: box-shadow 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            box-shadow: 0 0 10px rgba(52, 152, 219, 0.6);
+        }
+
+        button {
+            padding: 12px 20px;
+            font-size: 16px;
+            margin-left: 10px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+            transform: scale(1.05);
+        }
+
+        button:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            width: 100%;
+            max-width: 500px;
+            margin: 0;
+        }
+
+        li {
+            background-color: #ffffff;
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease, background-color 0.3s ease, opacity 0.5s ease;
+        }
+
+        li.completed {
+            text-decoration: line-through;
+            background-color: #bdc3c7;
+        }
+
+        li.removed {
+            opacity: 0;
+            transform: translateX(-100%);
+        }
+
+        .task-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .task-buttons button {
+            background-color: #e74c3c;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .task-buttons button.complete {
+            background-color: #2ecc71;
+        }
+
+        .task-buttons button:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lista de Tareas</h1>
+    <div class="task-input-container">
+        <input type="text" id="nuevaTarea" placeholder="Escribe una nueva tarea">
+        <button id="agregarTarea">Agregar Tarea</button>
+    </div>
+    <ul id="listaTareas"></ul>
+
+    <script>
+        let tareas = [];
+
+        const inputTarea = document.getElementById('nuevaTarea');
+        const botonAgregar = document.getElementById('agregarTarea');
+        const listaTareas = document.getElementById('listaTareas');
+
+        // Renderizar tareas con animación
+        function renderizarTareas() {
+            listaTareas.innerHTML = ''; // Limpiar lista
+            tareas.forEach((tarea, index) => {
+                const li = document.createElement('li');
+                li.className = tarea.completada ? 'completed' : '';
+                li.innerHTML = `
+                    <span>${tarea.texto}</span>
+                    <div class="task-buttons">
+                        <button class="complete" onclick="completarTarea(${index})">
+                            ${tarea.completada ? 'Desmarcar' : 'Completar'}
+                        </button>
+                        <button class="delete" onclick="eliminarTarea(${index})">Eliminar</button>
+                    </div>
+                `;
+                listaTareas.appendChild(li);
+                // Animación de entrada
+                setTimeout(() => li.style.opacity = '1', 100);
+            });
+        }
+
+        function agregarTarea() {
+            const textoTarea = inputTarea.value.trim();
+            if (textoTarea) {
+                tareas.push({ texto: textoTarea, completada: false });
+                inputTarea.value = '';
+                renderizarTareas();
+            }
+        }
+
+        function eliminarTarea(index) {
+            const tareaEliminada = document.querySelectorAll('li')[index];
+            tareaEliminada.classList.add('removed');
+            setTimeout(() => {
+                tareas.splice(index, 1);
+                renderizarTareas();
+            }, 500); // Delay para animación de eliminación
+        }
+
+        function completarTarea(index) {
+            tareas[index].completada = !tareas[index].completada;
+            renderizarTareas();
+        }
+
+        botonAgregar.addEventListener('click', agregarTarea);
+
+        inputTarea.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                agregarTarea();
+            }
+        });
+
+        renderizarTareas();
+    </script>
+</body>
+</html>

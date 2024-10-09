@@ -5,9 +5,101 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Validación de Formulario</title>
     <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        form {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        h2 {
+            text-align: center;
+            color: #34495e;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 1.2em;
+            color: #2c3e50;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            border: 2px solid #bdc3c7;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+            outline: none;
+            width: 100%;
+        }
+
+        input[type="text"]:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 8px rgba(52, 152, 219, 0.5);
+        }
+
+        input[type="submit"] {
+            padding: 12px;
+            background-color: #3498db;
+            color: white;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #2980b9;
+            transform: scale(1.05);
+        }
+
         #noname {
-            color: pink; /* Mensaje de error en color rosa */
-            display: none; /* Oculto por defecto */
+            color: #e74c3c;
+            font-size: 0.9em;
+            margin-top: 10px;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            text-align: center;
+        }
+
+        /* Estilos de animación */
+        #noname.show {
+            display: block;
+            opacity: 1;
+        }
+
+        @media (max-width: 600px) {
+            form {
+                padding: 20px;
+            }
+
+            h2 {
+                font-size: 1.5em;
+            }
+
+            input[type="text"],
+            input[type="submit"] {
+                font-size: 1em;
+            }
         }
     </style>
     <script>
@@ -16,26 +108,24 @@
             const message = document.getElementById("noname");
 
             if (nameField.trim() === "") {
-                message.style.display = "block"; // Mostrar el mensaje de error
+                message.classList.add("show"); // Añadir clase para mostrar mensaje con animación
                 event.preventDefault(); // Prevenir envío del formulario
             } else {
-                message.style.display = "none"; // Ocultar el mensaje si hay nombre
+                message.classList.remove("show"); // Ocultar el mensaje si el campo está lleno
             }
         }
     </script>
 </head>
 <body>
-    <h2>Formulario de Registro</h2>
     <form id="myForm">
+        <h2>Formulario de Registro</h2>
         <label for="name">Nombre:</label>
-        <input type="text" id="name" name="name">
-        <br><br>
+        <input type="text" id="name" name="name" placeholder="Escribe tu nombre">
         <input type="submit" value="Enviar">
         <p id="noname">El campo de nombre no puede estar vacío.</p> <!-- Mensaje de error -->
     </form>
 
     <script>
-        // Asignar el evento de validación al formulario
         document.getElementById("myForm").addEventListener("submit", validateForm);
     </script>
 </body>
